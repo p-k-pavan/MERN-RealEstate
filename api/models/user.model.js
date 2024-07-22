@@ -14,7 +14,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    }
+    },
+    photo:{
+        type:String,
+        default:"https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Free-Download.png"
+    },
 
 },{timestamps:true});
 
