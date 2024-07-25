@@ -78,3 +78,14 @@ export const google = async (req, res, next) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const signOut = (req,res,next) =>{
+  try {
+    res.clearCookie("access_token").status(200).json({message:"User signed out successfully" })
+  } catch (error) {
+    next(error)
+  }
+   
+
+
+}
