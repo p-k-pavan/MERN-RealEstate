@@ -134,7 +134,6 @@ export default function Profile() {
         setShowListingError(true);
         return;
       }
-      console.log("Listings fetched:", data.listings);
       setUserListing(data);
     } catch (error) {
       setShowListingError(true);
