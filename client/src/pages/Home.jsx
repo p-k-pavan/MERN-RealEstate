@@ -10,41 +10,53 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
+  const [error, setError] = useState(null); // Add a state for error handling
   SwiperCore.use([Navigation]);
-  console.log(offerListings);
+
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
         const res = await fetch('/api/listing/get?offer=true&limit=4');
+        if (!res.ok) throw new Error("Failed to fetch offer listings");
         const data = await res.json();
         setOfferListings(data);
-        fetchRentListings();
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       }
     };
+
     const fetchRentListings = async () => {
       try {
         const res = await fetch('/api/listing/get?type=rent&limit=4');
+        if (!res.ok) throw new Error("Failed to fetch rent listings");
         const data = await res.json();
         setRentListings(data);
-        fetchSaleListings();
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       }
     };
 
     const fetchSaleListings = async () => {
       try {
         const res = await fetch('/api/listing/get?type=sale&limit=4');
+        if (!res.ok) throw new Error("Failed to fetch sale listings");
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {
-        log(error);
+        setError(error.message);
       }
     };
-    fetchOfferListings();
+
+    // Fetch listings sequentially
+    const fetchAllListings = async () => {
+      await fetchOfferListings();
+      await fetchRentListings();
+      await fetchSaleListings();
+    };
+
+    fetchAllListings();
   }, []);
+
   return (
     <div>
       {/* top */}
@@ -68,26 +80,31 @@ export default function Home() {
         </Link>
       </div>
 
+      {/* Display error message if there is any */}
+      {error && (
+        <div className="text-red-700 text-center my-4">
+          <p>{error}</p>
+        </div>
+      )}
+
       {/* swiper */}
       <Swiper navigation>
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
-            <SwiperSlide>
+            <SwiperSlide key={listing._id}>
               <div
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: 'cover',
                 }}
                 className='h-[500px]'
-                key={listing._id}
               ></div>
             </SwiperSlide>
           ))}
       </Swiper>
 
       {/* listing results for offer, sale and rent */}
-
       <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10'>
         {offerListings && offerListings.length > 0 && (
           <div className=''>

@@ -37,6 +37,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const [showListingError, setShowListingError] = useState(false);
   const [userListing, setUserListing] = useState([]);
+  const [errorDelete, setErrorDelete] = useState(null);
 
   useEffect(() => {
     if (file) {
@@ -154,7 +155,7 @@ export default function Profile() {
         prev.filter((listing) => listing._id !== listingId)
       );
     } catch (error) {
-      console.log(error.message);
+      setErrorDelete(error.message);
     }
   };
 

@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <header className="bg-slate-200 shadow-md">
-      <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
+      <div className="flex justify-between items-center max-w-6xl mx-auto p-3 ">
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap cursor-pointer">
           <Link to="/">
             <span className="text-slate-500">PK </span>
@@ -60,7 +60,7 @@ export default function Header() {
           <Link to="/profile">
             <li className=" text-slate-700 hover:underline cursor-pointer hover:font-bold">
               {currentUser ? (
-                <img className="w-7 rounded-full object-cover" src={currentUser.photo} alt="profile" />
+                <img className="w-7 h-7 rounded-full object-cover" src={currentUser.photo} alt="profile" />
               ) : (
                 <li className="text-slate-700 hover:underline ">
                   Sign In

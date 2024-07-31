@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 export default function Contact({ listing }) {
   const [landlord, setLandlord] = useState(null);
   const [message, setMessage] = useState("");
+  const [error,setError] = (null);
 
   useEffect(() => {
     const fetchLandlord = async () => {
@@ -11,7 +12,7 @@ export default function Contact({ listing }) {
         const data = await res.json();
         setLandlord(data);
       } catch (error) {
-        console.error(error);
+        setError(error.message);
       }
     };
     fetchLandlord();
@@ -48,6 +49,7 @@ export default function Contact({ listing }) {
           >
             Send Message
           </a>
+          {error && <p className="text-red-700">{error}</p>}
         </div>
       )}
     </>
